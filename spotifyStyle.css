@@ -1,0 +1,191 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/*Custom Properties--change to suit own project*/
+:root {
+    --ff-primary:'Source Sans Pro', sans-serif;
+    --ff-secondary:'Source Code Pro', monospace;
+
+    --fw-regular: 300;
+    --fw-bold: 900;
+
+    --clr-light: #fff;
+    --clr-dark: #303030;
+    --clr-accent: #8077ed;
+  
+    --fs-h1: 3rem;
+    --fs-h2: 2rem;
+    --fs-h3: 1.25rem;
+    --fs-body: 0.65rem;
+
+    --bs: 0.25em 0.25em 0.75em rgba(0,0,0,.25),
+          0.125em 0.125em 0.25em rgba(0,0,0,.15);
+    
+}
+
+@media (min-width: 800px) {
+    :root {
+        --fs-h1: 4.5rem;
+        --fs-h2: 3.75rem;
+        --fs-h3: 1.5rem;
+        --fs-body: 1.125rem;
+    }
+}
+
+/* General Styles */
+
+body {
+    background-color: black;
+    color: white;
+    padding:0px;
+    margin:0px;
+    font-family: var(--ff-primary);
+    font-size: var(--fs-h3);
+}
+
+
+
+.container {
+    display:flex;
+    flex-direction:row;
+    bottom:0px;
+    top:0px;
+    position:absolute;
+}
+
+/* Left Nav */
+
+.leftNav {
+    background-color:#000000;
+    width: 220px;
+    display: flex;
+    flex-direction:column;
+    align-items: flex-start;
+    padding:20px;
+    border:1px solid white;
+    box-sizing: border-box;
+}
+
+/* Logo */
+
+.logo {
+    margin-bottom: 30px;
+}
+
+.nav__home-link {
+    text-decoration: none;
+    color: var(--clr-light);
+}
+
+.nav__home-link-flex {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+}
+
+.fa-spotify {
+    font-size: 30px;
+    color: white;
+    padding-right: 10px;
+}
+
+.appName {
+    font-size:var(--fs-h3);
+    font-weight: 500;
+}
+
+/* Main Nav Functions */
+
+.nav__function-link {
+    margin-bottom: 20px;
+}
+
+.nav__function-links {
+    text-decoration: none;
+    color: var(--clr-light);
+}
+
+.nav__function-link-flex {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.fa-solid {
+    font-size: 15px;
+    color: white;
+    padding-right: 10px;
+}
+
+.nav__function-text {
+    font-size:var(--fs-body);
+}
+
+/* Playlist Buttons */
+
+.nav__playlist-buttons-link {
+    margin-bottom: 20px;
+}
+
+.nav__playlist-button-links {
+    text-decoration: none;
+    color: var(--clr-light);
+}
+
+.nav__playlist-button-flex {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.fa-solid {
+    font-size: 15px;
+    color: white;
+    padding-right: 10px;
+}
+
+.nav__function-text {
+    font-size:var(--fs-body);
+}
+
+span{
+    display:block;
+    width:100%;
+    border-top: 0.1px solid #ccc;
+    margin-bottom: 10px;
+ }
+
+/* Playlist List */
+
+.playlist__List {
+    padding-right: 120px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    margin-bottom: 50px;
+}
+.playlist__list {
+    list-style-type: none;
+    font-size:var(--fs-body);
+    padding:0px;
+}
+
+.playlist__list li {
+    margin-bottom: 10px;
+    width:66px;
+    word-wrap: normal;
+}
+
+
+
+
+/* Main Display */
+
+.main {
+    flex: 1;
+}
