@@ -26,6 +26,7 @@
     
 }
 
+/*
 @media (min-width: 800px) {
     :root {
         --fs-h1: 4.5rem;
@@ -34,13 +35,14 @@
         --fs-body: 1.125rem;
     }
 }
-
+*/
 /* General Styles */
 
 body {
     background-color: black;
     color: white;
     padding:0px;
+    padding-left: 220px;
     margin:0px;
     font-family: var(--ff-primary);
     font-size: var(--fs-h3);
@@ -67,6 +69,10 @@ body {
     padding:20px;
     border:1px solid white;
     box-sizing: border-box;
+    position: fixed;
+    top:0px;
+    left:0px;
+    bottom:60px;
 }
 
 /* Logo */
@@ -167,7 +173,7 @@ span{
     overflow-y: scroll;
     overflow-x: hidden;
     overflow-wrap: break-word;
-    margin-bottom: 50px;
+    margin-bottom: 15px;
 }
 .playlist__list {
     list-style-type: none;
