@@ -14,7 +14,7 @@
 
     --clr-light: #fff;
     --clr-dark: #303030;
-    --clr-accent: #8077ed;
+    --clr-accent: #909090;
   
     --fs-h1: 3rem;
     --fs-h2: 2rem;
@@ -28,14 +28,18 @@
 }
 
 /* General Styles */
-
 body {
-    background-color: black;
+    background: rgb(0,0,0);
     color: var(--clr-light);
     padding:0px 50px 0px 170px;
     margin:0px;
     font-family: var(--ff-primary);
     font-size: var(--fs-h3);
+    height:100%;
+    background-image: linear-gradient(to bottom, #280e5b 0%,#000000 37%,#000000 37%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
 }
 
 
@@ -58,8 +62,6 @@ body {
     align-items: flex-start;
     padding:20px;
     padding-bottom: 10px;
-    border:1px solid var(--clr-light);
-    box-sizing: border-box;
     position: fixed;
     top:0px;
     left:0px;
@@ -164,6 +166,7 @@ span{
     overflow-y: scroll;
     overflow-x: hidden;
     overflow-wrap: break-word;
+    color:var(--clr-accent);
 }
 .playlist__list {
     list-style-type: none;
@@ -195,7 +198,7 @@ span{
 
 .footer {
     background-color: rgb(29, 29, 29);
-    color: #909090;
+    color: var(--clr-accent);
     justify-content: space-between;
     display: flex;
     position: fixed;
@@ -203,13 +206,12 @@ span{
     left:0px;
     right:0px;
     height:60px;
-    border: 1px solid var(--clr-light);
     padding:8px;
     font-size:var(--fs-footer);
 }
 
 .footer .fa-solid {
-    color: #909090;
+    color: var(--clr-accent);
 }
 
 .flex {
@@ -252,8 +254,8 @@ span{
     padding-right: 6px;
 }
 
-.fa-heart {
-    font-size:var(--fs-body);
+.footer_heart .fa-solid {
+    font-size:0.7rem;
     color:var(--clr-light);
 }
 
@@ -293,9 +295,10 @@ span{
 .footer__progress {
     width: 240px;
     height:0px;
-    border: 1px solid  #909090;
+    border: 1px solid  var(--clr-accent);
     border-radius:10px;
-    background-color: #909090;
+    background-color: var(--clr-accent);
+    margin: 0px 5px;
 }
 
 @media (min-width:800px) {
