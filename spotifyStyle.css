@@ -15,7 +15,7 @@
     --clr-light: #fff;
     --clr-dark: #303030;
     --clr-accent: #909090;
-    --clr-accent-light: #d4cfcf;
+    --clr-accent-light: #867f7f;
   
     --fs-h1: 3rem;
     --fs-h2: 2rem;
@@ -36,11 +36,10 @@ body {
     margin:0px;
     font-family: var(--ff-primary);
     font-size: var(--fs-h3);
-    height:100%;
     background-image: linear-gradient(to bottom, #280e5b 0%,#000000 37%,#000000 37%);
     background-repeat: no-repeat;
     background-attachment: fixed;
-
+    min-height: 100%;
 }
 
 
@@ -48,8 +47,7 @@ body {
 .container {
     display:flex;
     flex-direction:row;
-    bottom:0px;
-    top:40px;
+    top:15px;
     position:absolute;
 }
 
@@ -337,15 +335,83 @@ span{
 /* Main Display */
 
 .main {
-    flex: 1;
     padding: 13px 5px 0px 5px;
+    margin:15px;
 }
 
-.main__grid-container {
+.main__top-items {
+    display: grid;
+    gap:10px 15px;
+    margin-bottom: 40px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2,50px);
+    justify-content: space-between;
+    align-content: center;
+    width: 82vw;
+}
+
+.main__top-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    background-color:#222121;
+    border-radius: 3px;
+}
+
+.main__top-image {
+    height:50px;
+    border-radius: 3px;
+    margin-right:15px;
+}
+
+.main__top-text {
+    font-size: var(--fs-body);
+    font-weight:bold;
+}
+
+.main__objects {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__object {
+    background-color: #222121;
+    border-radius: 3px;
+    flex:1;
     display: flex;
     flex-direction: column;
+    justify-content: start;
+    margin:0px 15px 0px 0px;
+    height:180px;
 }
 
-.main__items {
-    margin:15px 0px;
+.main__object:last-child {
+    margin:0px;
+}
+
+.main__object-image {
+    height:95px;
+    margin: 12px 12px;
+    border-radius: 3px;
+}
+
+.main_object-text {
+    font-size:var(--fs-body);
+    margin:5px 12px;
+}
+
+.main_object-description {
+    color: var(--clr-accent-light);
+    font-size:var(--fs-body);
+    margin:0px 12px;
+
+}
+
+.main__ending-span {
+    display:block;
+    width:100%;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    border-top: 0.1px solid rgb(56, 53, 53);
 }
