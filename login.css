@@ -1,0 +1,25 @@
+.mb-3 {
+    display:flex;
+    margin-bottom: 15px;
+}
+
+.mb-3 {
+    margin-bottom: 30px;
+}
+
+.form {
+    margin-right: 40px;
+    padding: 5px;
+    font-size:22px;
+}
+
+.form-control {
+    width:345px;
+    font-size:18px;
+    padding: 5px 10px;
+}
+
+.btn-primary {
+    padding: 5px 15px;
+    font-family: var(--ff-primary);
+}

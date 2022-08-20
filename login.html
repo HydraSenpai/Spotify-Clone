@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spotify Login</title>
+        <link href="spotifyStyle.css" rel="stylesheet">
+        <link href="login.css" rel="stylesheet">
+        <script src="JS/app.js"></script>
+        <script src="https://kit.fontawesome.com/3cfff42ea5.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+
+
+        <div class="container">
+            <div class="leftNav">
+    
+                <div class="logo">
+                    <a href="#" class="nav__home-link">
+                        <div class="nav__home-link-flex">
+                            <i class="fa-brands fa-spotify"></i>
+                            <div class="appName">Spotify</div>
+                        </div>  
+                    </a>
+                </div>
+    
+                <div class="nav__function-link">
+                    <a href="#" class="nav__function-links">
+                        <div class="nav__function-link-flex">
+                            <i class="fa-solid fa-house"></i>
+                            <div class="nav__function-text">Home</div>
+                        </div>  
+                    </a>
+    
+                    <a href="#" class="nav__function-links">
+                        <div class="nav__function-link-flex">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <div class="nav__function-text">Search</div>
+                        </div>  
+                    </a>
+    
+                    <a href="#" class="nav__function-links">
+                        <div class="nav__function-link-flex">
+                            <i class="fa-solid fa-book-open"></i>
+                            <div class="nav__function-text">Your Library</div>
+                        </div>  
+                    </a>
+                </div>
+    
+    
+    
+                <div class="playlist__Buttons">
+                    <div class="nav__playlist-buttons-link">
+                        <a href="#" class="nav__playlist-button-links">
+                            <div class="nav__playlist-button-flex">
+                                <i class="fa-solid fa-circle-plus"></i>
+                                <div class="nav__function-text">Create Playlist</div>
+                            </div>  
+                        </a>
+        
+                        <a href="#" class="nav__playlist-button-links">
+                            <div class="nav__playlist-button-flex">
+                                <i class="fa-solid fa-heart"></i>
+                                <div class="nav__function-text">Liked Songs</div>
+                            </div>  
+                        </a>
+        
+                        <a href="#" class="nav__playlist-button-links">
+                            <div class="nav__playlist-button-flex">
+                                <i class="fa-solid fa-bookmark"></i>
+                                <div class="nav__function-text">Your Episodes</div>
+                            </div>  
+                        </a>
+                    </div>
+                </div>
+    
+                <span></span>
+    
+    
+                <div class="playlist__List">
+                    <ul class="playlist__list">
+                    </ul>
+                </div>
+            </div>
+    
+    
+            <div class="header">
+                <div class="header__page-buttons">
+                    <button class="header__button header__button-back"><</button>
+                    <button class="header__button header__button-back">></button>
+                </div>
+                <button class="header__button header__button-profile"></button>
+    
+            </div>
+    
+    
+            <div class="main">
+                <div class="main__flex-container">
+                        <h1 class="main__welcome">Good Morning</h1>
+
+                        <h2>Please login to use the Spotify Services</h2>
+    
+                        <div id="tokenSection" class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="clientId" class="form">Client ID</label>
+                                    <input type="text" class="form-control" id="clientId" placeholder="">
+                                </div>    
+                                <div class="mb-3">
+                                    <label for="clientSecret" class="form">Client Secret</label>
+                                    <input type="text" class="form-control" id="clientSecret" placeholder="">
+                                </div>
+                                <input type="button" class="btn btn-primary" onclick="requestAuthorization()" value="Request Authorisation">
+                            </div>
+                        </div>
+
+                    <span class="main__ending-span"></span>
+                </div>
+            </div>
+    
+    
+            <div class="footer">
+                <div class="flex">
+                    <div class="footer__item footer__song-display">
+                        <div class="footer__song-details"> 
+                        </div>
+                    </div>
+    
+                    <div class="footer__item footer__play-display">
+                        <div class="footer__play-buttons">
+                            <a href="#" class="footer__play-button"><i class="fa-solid fa-shuffle"></i></a>
+                            <a href="#" class="footer__play-button"><i class="fa-solid fa-backward-step"></i></a>
+                            <a href="#" class="footer__play-button"><i  style="font-size:2rem;padding-bottom:0px;color:white;" class="fa-solid fa-circle-pause"></i></a>
+                            <a href="#" class="footer__play-button"><i class="fa-solid fa-forward-step"></i></a>
+                            <a href="#" class="footer__play-button"><i class="fa-solid fa-repeat"></i></a>
+                        </div>
+    
+                        <div class="footer__progress-bar">
+                            <div class="footer__timer">3:51</div>
+                            <button class="footer__progress"></button>
+                            <div class="footer__length">3:51</div>
+                        </div>
+                    </div>
+    
+                    <div class="footer__item footer__function-buttons">
+                        <a href="#"><i class="fa-solid fa-bars"></i></i></a>
+                        <a href="#"><i class="fa-solid fa-mobile-screen-button"></i></a>
+                        <a href="#"><i class="fa-solid fa-volume-high"></i></a>
+                        <a href="#"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    
+    
+    </body>
+    </html>
