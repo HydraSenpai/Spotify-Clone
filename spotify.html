@@ -10,9 +10,7 @@
     <script src="https://kit.fontawesome.com/3cfff42ea5.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-
-
+<body onload="onPageLoad()">
     <div class="container">
         <div class="leftNav">
 
@@ -80,24 +78,6 @@
 
             <div class="playlist__List">
                 <ul class="playlist__list">
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
-                    <li>Sample</li>
                 </ul>
             </div>
         </div>
@@ -114,7 +94,29 @@
 
 
         <div class="main">
-            <div class="main__flex-container">
+
+            <div class="main__flex-container" id="login__section" style="display:block;">
+                    <h1 class="main__welcome">Good Morning</h1>
+
+                    <h2>Please login to use the Spotify Services</h2>
+
+                    <div id="tokenSection" class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="clientId" class="form">Client ID</label>
+                                <input type="text" class="form-control" id="clientId" placeholder="">
+                            </div>    
+                            <div class="mb-3">
+                                <label for="clientSecret" class="form">Client Secret</label>
+                                <input type="text" class="form-control" id="clientSecret" placeholder="">
+                            </div>
+                            <input type="button" class="btn btn-primary" onclick="requestAuthorization()" value="Request Authorisation">
+                        </div>
+                    </div>
+                <span class="main__ending-span"></span>
+            </div>
+
+            <div class="main__flex-container" style="display:none;" id="main__section">
                     <h1 class="main__welcome">Good Morning</h1>
                         
                     <div class="main__top-items">
