@@ -16,21 +16,21 @@ const PLAY = 'https://api.spotify.com/v1/me/player/play';
 const PREV = 'https://api.spotify.com/v1/me/player/previous';
 const PAUSE = 'https://api.spotify.com/v1/me/player/pause';
 const NEXT = 'https://api.spotify.com/v1/me/player/next';
+const RECENT = "https://api.spotify.com/v1/me/player/recently-played";
+const FEATURED = "https://api.spotify.com/v1/browse/featured-playlists";
 
 function onPageLoad(){
     clientId = localStorage.getItem("client_id");
     clientSecret = localStorage.getItem("client_secret");
     if ( window.location.search.length > 0 ){
         handleRedirect();
-    }
-    else{
+    } else{
         access_token = localStorage.getItem("access_token");
         if ( access_token == null ){
             // we don't have an access token so present token section
             document.getElementById("login__section").style.display = 'block';  
             document.getElementById("main__section").style.display = 'none';
-        }
-        else {
+        } else {
             // we have an access token so present device section
             document.getElementById("main__section").style.display = 'block';
             document.getElementById("login__section").style.display = 'none'; 
@@ -125,32 +125,42 @@ function callApi(method, url, body, callback){
     xhr.onload = callback;
 }
 
-function handleResponse(){
-    console.log('wow');
-    if(this.status == 200){
-        console.log(this.value);
-    } else if(this.status == 401){
-        refreshAccessToken();
-    } else {
-        console.log(this.responseText);
-        alert(this.responseText);
-    }
-}
-
 function handlePlaylistsResponse(){
     if ( this.status == 200 ){
         var data = JSON.parse(this.responseText);
         console.log(data);
-        console.log("length is " + data.items.length);
         const playlists = document.getElementById("playlistList");
         for(let x=0;x<data.items.length;x++){
             playlists.innerHTML += `<li> ${data.items[x].name} </li>`;
         }
-    }
-    else if ( this.status == 401 ){
+        const featured = document.getElementById('mainFeatured');
+
+        //need to fix random to not have duplicates
+        let random = 0;
+        let usedPlaylists = []
+        //should only generate 6 but needs input validation incase user has < 6 playlists available
+        let loopTime = 5;
+        if(data.items.length < 5){
+            loopTime = data.items.length;
+        }
+        //Goes through 6 times to generate all recommedations on the main header
+        for(let y=0;y<loopTime;y++){
+            //will use random playlists to fill recommendations
+            random = Math.floor(Math.random()*data.items.length);
+            //will search through array of playlists already displayed and ignore already used ones to stop duplicates
+            while(usedPlaylists.includes(random)){
+                random = Math.floor(Math.random()*data.items.length);
+            }
+            //adds to used array
+            usedPlaylists[y] = random;
+            featured.innerHTML += `<div class="main__top-item">
+                                        <img src="${data.items[random].images[0].url}" class="main__top-image">
+                                        <div class="main__top-text">${data.items[random].name}</div>
+                                </div>`;
+        }
+    } else if ( this.status == 401 ){
         refreshAccessToken();
-    }
-    else {
+    } else {
         console.log(this.responseText);
         alert(this.responseText);
     }
@@ -159,4 +169,6 @@ function handlePlaylistsResponse(){
 function displayPlaylists(){
     callApi("GET", PLAYLISTS, null, handlePlaylistsResponse);
 }
+
+
 
