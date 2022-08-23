@@ -36,6 +36,8 @@ function onPageLoad(){
             document.getElementById("login__section").style.display = 'none'; 
             displayWelcomeMessage();
             displayPlaylists();
+            displayFeatured();
+            displayUserPlaylists();
         }
     }
 }
@@ -181,5 +183,29 @@ function displayPlaylists(){
     callApi("GET", PLAYLISTS, null, handlePlaylistsResponse);
 }
 
+function handleFeaturedResponse(){
+    if ( this.status == 200 ){
+        var data = JSON.parse(this.responseText);
+        console.log(data);
+        const main = document.getElementById("mainObjects");
+        const mainTitle = document.getElementById("mainTitle");
+        mainTitle.innerHTML = data.message;
+        for(let x=0;x<8;x++){
+            main.innerHTML += `<div class="main__object">
+                        <img class="main__object-image" src="${data.playlists.items[x].images[0].url}">
+                        <div class="main_object-text">${data.playlists.items[x].name}</div>
+                        <div class="main_object-description">${data.playlists.items[x].description}</div>
+                    </div>`
+        }
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
 
+function displayFeatured(){
+    callApi("GET", FEATURED, null, handleFeaturedResponse);
+}
 
