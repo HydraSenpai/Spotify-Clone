@@ -34,6 +34,7 @@ function onPageLoad(){
             // we have an access token so present device section
             document.getElementById("main__section").style.display = 'block';
             document.getElementById("login__section").style.display = 'none'; 
+            displayWelcomeMessage();
             displayPlaylists();
         }
     }
@@ -113,6 +114,16 @@ function handleAuthorizationResponse(){
     else {
         console.log(this.responseText);
         alert(this.responseText);
+    }
+}
+
+function displayWelcomeMessage(){
+    let hour = new Date();
+    const mainWelcome = document.getElementById("mainWelcome");
+    if(hour.getHours() >= 12){
+        mainWelcome.innerHTML = "Good Afternoon";
+    } else {
+        mainWelcome.innerHTML = "Good Morning";
     }
 }
 

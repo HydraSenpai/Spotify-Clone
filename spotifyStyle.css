@@ -213,6 +213,8 @@ span{
 .playlist__list li {
     margin-bottom: 20px;
     width:146px;
+    height:16px;
+    overflow:hidden;
     word-wrap: normal;
     font-size:0.8em;
 }
