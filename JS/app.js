@@ -18,6 +18,8 @@ const PAUSE = 'https://api.spotify.com/v1/me/player/pause';
 const NEXT = 'https://api.spotify.com/v1/me/player/next';
 const RECENT = "https://api.spotify.com/v1/me/player/recently-played";
 const FEATURED = "https://api.spotify.com/v1/browse/featured-playlists";
+const SHOWS = "https://api.spotify.com/v1/shows";
+const TOP = "https://api.spotify.com/v1/me/top/artists";
 
 function onPageLoad(){
     clientId = localStorage.getItem("client_id");
@@ -37,7 +39,7 @@ function onPageLoad(){
             displayWelcomeMessage();
             displayPlaylists();
             displayFeatured();
-            displayUserPlaylists();
+            displayTop();
         }
     }
 }
@@ -171,6 +173,16 @@ function handlePlaylistsResponse(){
                                         <div class="main__top-text">${data.items[random].name}</div>
                                 </div>`;
         }
+        const main = document.getElementById("mainObjects1");
+        const mainTitle = document.getElementById("mainTitle1");
+        mainTitle.innerHTML = "Your playlists...";
+        for(let x=0;x<8;x++){
+            main.innerHTML += `<div class="main__object">
+                        <img class="main__object-image" src="${data.items[x].images[0].url}">
+                        <div class="main_object-text">${data.items[x].name}</div>
+                        <div class="main_object-description">${data.items[x].description}</div>
+                    </div>`
+        }
     } else if ( this.status == 401 ){
         refreshAccessToken();
     } else {
@@ -209,20 +221,10 @@ function displayFeatured(){
     callApi("GET", FEATURED, null, handleFeaturedResponse);
 }
 
-function handleUserResponse(){
+function handleTopResponse(){
     if ( this.status == 200 ){
         var data = JSON.parse(this.responseText);
         console.log(data);
-        const main = document.getElementById("mainObjects1");
-        const mainTitle = document.getElementById("mainTitle1");
-        mainTitle.innerHTML = "Your playlists...";
-        for(let x=0;x<8;x++){
-            main.innerHTML += `<div class="main__object">
-                        <img class="main__object-image" src="${data.items[x].images[0].url}">
-                        <div class="main_object-text">${data.items[x].name}</div>
-                        <div class="main_object-description">${data.items[x].description}</div>
-                    </div>`
-        }
     } else if ( this.status == 401 ){
         refreshAccessToken();
     } else {
@@ -231,6 +233,6 @@ function handleUserResponse(){
     }
 }
 
-function displayUserPlaylists(){
-    callApi("GET", PLAYLISTS, null, handleUserResponse);
+function displayTop(){
+    callApi("GET", TOP, null, handleTopResponse);
 }

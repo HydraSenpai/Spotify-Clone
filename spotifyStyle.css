@@ -466,7 +466,8 @@ span{
     flex-direction: column;
     justify-content: start;
     margin:0px 25px 0px 0px;
-    height:260px;
+    padding-bottom: 10px;
+    height:275px;
     width:180px;
     transition: background-color 250ms;
 }
