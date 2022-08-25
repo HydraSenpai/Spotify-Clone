@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/3cfff42ea5.js" crossorigin="anonymous"></script>
 </head>
 
-<body onload="onPageLoad()">
+<body>
     <div class="container">
         <div class="leftNav">
 
@@ -151,21 +151,24 @@
         <div class="footer">
             <div class="flex">
                 <div class="footer__item footer__song-display">
-                    <img class="footer__img" src="/images/sampleAlbum.jpg">
+                    <img class="footer__img" id="footerImage" src="/images/sampleAlbum.jpg">
                     <div class="footer__song-details">
-                        <div class="footer__song-name">Green and Blue - Koan</div>
-                        <div class="footer__song-artist">ILLENIUM</div> 
+                        <div class="footer__song-name" id="footerName">Green and Blue - Koan</div>
+                        <div class="footer__song-artist" id="footerArtist">
+                            ILLENIUM
+                        </div> 
                     </div>
-                    <a href="#" class="footer_heart"><i class="fa-solid fa-heart"></i></a>
+                    <a class="footer_heart"><i class="fa-solid fa-heart"></i></a>
+                    
                 </div>
 
                 <div class="footer__item footer__play-display">
                     <div class="footer__play-buttons">
-                        <a href="#" class="footer__play-button"><i class="fa-solid fa-shuffle"></i></a>
-                        <a href="#" class="footer__play-button"><i class="fa-solid fa-backward-step"></i></a>
-                        <a href="#" class="footer__play-button"><i  style="font-size:2rem;padding-bottom:0px;color:white;" class="fa-solid fa-circle-pause"></i></a>
-                        <a href="#" class="footer__play-button"><i class="fa-solid fa-forward-step"></i></a>
-                        <a href="#" class="footer__play-button"><i class="fa-solid fa-repeat"></i></a>
+                        <a class="footer__play-button"><i class="fa-solid fa-shuffle"></i></a>
+                        <a class="footer__play-button" id="prevButton"><i class="fa-solid fa-backward-step"></i></a>
+                        <a class="footer__play-button" id="playButton"><i  style="font-size:2rem;padding-bottom:0px;color:white;" class="fa-solid fa-circle-pause"></i></a>
+                        <a class="footer__play-button" id="nextButton"><i class="fa-solid fa-forward-step"></i></a>
+                        <a class="footer__play-button"><i class="fa-solid fa-repeat"></i></a>
                     </div>
 
                     <div class="footer__progress-bar">
@@ -176,8 +179,7 @@
                 </div>
 
                 <div class="footer__item footer__function-buttons">
-                    <a href="#"><i class="fa-solid fa-bars"></i></i></a>
-                    <a href="#"><i class="fa-solid fa-mobile-screen-button"></i></a>
+                    <a href="#"><i class="fa-solid fa-bsile-screen-button"></i></a>
                     <a href="#"><i class="fa-solid fa-volume-high"></i></a>
                     <a href="#"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></a>
                 </div>

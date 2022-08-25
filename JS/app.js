@@ -6,12 +6,15 @@ let clientSecret = "";
 let access_token = null;
 let refresh_token = null;
 
-
+let currentDeviceId;
+let playing = false;
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
 const TOKEN = 'https://accounts.spotify.com/api/token';
 const DEVICES = 'https://api.spotify.com/v1/me/player/devices';
 const PLAYLISTS = 'https://api.spotify.com/v1/me/playlists';
+const CURRENT = "https://api.spotify.com/v1/me/player/currently-playing";
+const PLAYING = "https://api.spotify.com/v1/me/player";
 const PLAY = 'https://api.spotify.com/v1/me/player/play';
 const PREV = 'https://api.spotify.com/v1/me/player/previous';
 const PAUSE = 'https://api.spotify.com/v1/me/player/pause';
@@ -20,6 +23,18 @@ const RECENT = "https://api.spotify.com/v1/me/player/recently-played";
 const FEATURED = "https://api.spotify.com/v1/browse/featured-playlists";
 const SHOWS = "https://api.spotify.com/v1/shows";
 const TOP = "https://api.spotify.com/v1/me/top/artists";
+
+window.onload=function(){
+    let playButton = document.getElementById("playButton");
+    playButton.addEventListener("click", playPause);
+    let nextButton = document.getElementById("nextButton");
+    nextButton.addEventListener("click", next);
+    let prevButton = document.getElementById("prevButton");
+    prevButton.addEventListener("click", prev);
+    onPageLoad();
+  }
+
+
 
 function onPageLoad(){
     clientId = localStorage.getItem("client_id");
@@ -39,7 +54,9 @@ function onPageLoad(){
             displayWelcomeMessage();
             displayPlaylists();
             displayFeatured();
-            displayTop();
+            getCurrent();
+            isPause();
+            getDevices();
         }
     }
 }
@@ -176,7 +193,11 @@ function handlePlaylistsResponse(){
         const main = document.getElementById("mainObjects1");
         const mainTitle = document.getElementById("mainTitle1");
         mainTitle.innerHTML = "Your playlists...";
-        for(let x=0;x<8;x++){
+        loopTime = 8;
+        if(data.items.length < 8){
+            loopTime = data.items.length;
+        }
+        for(let x=0;x<loopTime;x++){
             main.innerHTML += `<div class="main__object">
                         <img class="main__object-image" src="${data.items[x].images[0].url}">
                         <div class="main_object-text">${data.items[x].name}</div>
@@ -221,10 +242,22 @@ function displayFeatured(){
     callApi("GET", FEATURED, null, handleFeaturedResponse);
 }
 
-function handleTopResponse(){
+function handleCurrentResponse(){
     if ( this.status == 200 ){
         var data = JSON.parse(this.responseText);
         console.log(data);
+        const image = document.getElementById("footerImage");
+        image.src = data.item.album.images[0].url;
+        const name = document.getElementById("footerName");
+        name.innerHTML = data.item.name;
+
+        
+        const artist = document.getElementById("footerArtist");
+        artist.innerHTML = `<div class="footer__song-artists">${data.item.artists[0].name}</div>`
+        for(let x=1;x<data.item.artists.length;x++){
+            artist.innerHTML += ", " + `<div class="footer__song-artists">${data.item.artists[x].name}</div>`;
+        }
+
     } else if ( this.status == 401 ){
         refreshAccessToken();
     } else {
@@ -233,6 +266,115 @@ function handleTopResponse(){
     }
 }
 
-function displayTop(){
-    callApi("GET", TOP, null, handleTopResponse);
+function getCurrent(){
+    callApi("GET", CURRENT, null, handleCurrentResponse);
+}
+
+function handlePlayResponse(){
+    if ( this.status == 200 ){
+        var data = JSON.parse(this.responseText);
+        console.log(data);
+        if(data.is_playing){
+            playing = true;
+            //set bar
+        } else {
+            const play = document.getElementById("playButton");
+            play.innerHTML = `<a class="footer__play-button" id="playButton">
+                            <i  style="font-size:2rem;padding-bottom:0px;color:white;" class="fa-solid fa-circle-play"></i>
+                        </a>`;
+            playing = false;
+        }
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function isPause(){
+    callApi("GET", PLAYING, null, handlePlayResponse);
+}
+
+function handleDeviceResponse(){
+    if ( this.status == 200 ){
+        var data = JSON.parse(this.responseText);
+        console.log(data);
+        currentDeviceId = data.devices[0].id;
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function getDevices(){
+    callApi("GET", DEVICES, null, handleDeviceResponse)
+}
+
+function handlePauseResponse(){
+    console.log("pause status = " + this.status);
+    if (this.status == 204){
+        const play = document.getElementById("playButton");
+        play.innerHTML = `<a class="footer__play-button" id="playButton">
+                            <i  style="font-size:2rem;padding-bottom:0px;color:white;" class="fa-solid fa-circle-play"></i>
+                        </a>`;
+        playing = false;
+        console.log("Playing: " + playing);
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function handleUnpauseResponse(){
+    console.log("play status = " + this.status);
+    if (this.status == 204){
+        const play = document.getElementById("playButton");
+        play.innerHTML = `<a class="footer__play-button" id="playButton">
+                            <i  style="font-size:2rem;padding-bottom:0px;color:white;" class="fa-solid fa-circle-pause"></i>
+                        </a>`;
+        playing = true;
+        console.log("Playing: " + playing);
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function playPause(){
+    console.log("isPlaying: " + playing);
+    console.log("device id = " + currentDeviceId);
+    if(currentDeviceId){
+        if(playing){
+            callApi("PUT", PAUSE + "?device_id=" + currentDeviceId, null, handlePauseResponse);
+        } else {
+            callApi("PUT", PLAY + "?device_id=" + currentDeviceId, null, handleUnpauseResponse);
+        }
+    }
+}
+
+function handleSkip(){
+    if (this.status == 204){
+        console.log('Skipped!');
+        getCurrent();
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function next(){
+    callApi("POST", NEXT, null, handleSkip);
+}
+
+function prev(){
+    callApi("POST", PREV, null, handleSkip);
 }
