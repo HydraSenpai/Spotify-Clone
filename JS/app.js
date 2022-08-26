@@ -1,14 +1,22 @@
 let redirect_uri = "http://127.0.0.1:5500/spotify.html";
 
+//client verification variables
 let clientId = "";
 let clientSecret = "";
-
 let access_token = null;
 let refresh_token = null;
 
+//boolean state variables
 let currentDeviceId;
 let playing = false;
+let shuffled = false;
+let looped = false;
 
+//variable to reset shuffle and loop button since you cant change hover styles in js directly
+let css = '#shuffleButton:hover{color:green;}';
+let style = document.createElement('style');
+
+//endpoints of the spotify api
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
 const TOKEN = 'https://accounts.spotify.com/api/token';
 const DEVICES = 'https://api.spotify.com/v1/me/player/devices';
@@ -23,7 +31,10 @@ const RECENT = "https://api.spotify.com/v1/me/player/recently-played";
 const FEATURED = "https://api.spotify.com/v1/browse/featured-playlists";
 const SHOWS = "https://api.spotify.com/v1/shows";
 const TOP = "https://api.spotify.com/v1/me/top/artists";
+const SHUFFLE = "https://api.spotify.com/v1/me/player/shuffle";
+const LOOP = "https://api.spotify.com/v1/me/player/repeat";
 
+//creating addListeners since css onclick bugs out
 window.onload=function(){
     let playButton = document.getElementById("playButton");
     playButton.addEventListener("click", playPause);
@@ -31,12 +42,17 @@ window.onload=function(){
     nextButton.addEventListener("click", next);
     let prevButton = document.getElementById("prevButton");
     prevButton.addEventListener("click", prev);
+    let shuffleButton = document.getElementById("shuffleButton");
+    shuffleButton.addEventListener("click", shuffle);
+    let loopButton = document.getElementById("loopButton");
+    loopButton.addEventListener("click", loop);
     onPageLoad();
   }
 
 
 
 function onPageLoad(){
+    //reloads client variables everytime to keep authentication
     clientId = localStorage.getItem("client_id");
     clientSecret = localStorage.getItem("client_secret");
     if ( window.location.search.length > 0 ){
@@ -310,7 +326,12 @@ function handleDeviceResponse(){
 }
 
 function getDevices(){
-    callApi("GET", DEVICES, null, handleDeviceResponse)
+    try {
+        callApi("GET", DEVICES, null, handleDeviceResponse);
+    } catch(err){
+        console.log("Error with selected device");
+    }
+    
 }
 
 function handlePauseResponse(){
@@ -350,19 +371,27 @@ function handleUnpauseResponse(){
 function playPause(){
     console.log("isPlaying: " + playing);
     console.log("device id = " + currentDeviceId);
-    if(currentDeviceId){
-        if(playing){
-            callApi("PUT", PAUSE + "?device_id=" + currentDeviceId, null, handlePauseResponse);
-        } else {
-            callApi("PUT", PLAY + "?device_id=" + currentDeviceId, null, handleUnpauseResponse);
+    try {
+        if(currentDeviceId){
+            if(playing){
+                callApi("PUT", PAUSE + "?device_id=" + currentDeviceId, null, handlePauseResponse);
+            } else {
+                callApi("PUT", PLAY + "?device_id=" + currentDeviceId, null, handleUnpauseResponse);
+            }
         }
-    }
+        } catch (err){
+            console.log("Can't play the song right now");
+        }
+    
 }
 
 function handleSkip(){
     if (this.status == 204){
-        console.log('Skipped!');
-        getCurrent();
+        console.log('Trying to skip!');
+        
+        setTimeout(getCurrent(), 2000);
+        
+        
     } else if ( this.status == 401 ){
         refreshAccessToken();
     } else {
@@ -372,9 +401,74 @@ function handleSkip(){
 }
 
 function next(){
-    callApi("POST", NEXT, null, handleSkip);
+    try{
+        callApi("POST", NEXT + "?device_id=" + currentDeviceId, null, handleSkip);
+        } catch(err){
+            console.log("Couldn't skip");
+        }
 }
 
 function prev(){
-    callApi("POST", PREV, null, handleSkip);
+    try{
+        callApi("POST", PREV + "?device_id=" + currentDeviceId, null, handleSkip);
+        } catch(err){
+            console.log("Couldn't skip");
+        }
 }
+
+function shuffle(){
+    if(shuffled){
+        callApi("PUT", SHUFFLE + "?device_id=" + currentDeviceId + "&state=false", null, handleShuffle);
+    } else {
+        callApi("PUT", SHUFFLE + "?device_id=" + currentDeviceId + "&state=true", null, handleShuffle);
+    }
+}
+
+function handleShuffle(){
+    if (this.status == 204){
+        if(shuffled){
+            shuffleButton.style.color = "#c3c1c1";
+            shuffled = false;
+            console.log("Unshuffled");
+        } else {
+            shuffleButton.style.color = "rgb(94, 167, 39)";
+            shuffled = true;
+            console.log("Shuffled");
+        }
+               
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function handleLoop(){
+    if (this.status == 204){
+        if(looped){
+            loopButton.style.color = "#c3c1c1";
+            looped = false;
+            console.log("Not looping");
+        } else {
+            loopButton.style.color = "rgb(94, 167, 39)";
+            looped = true;
+            console.log("Looping");
+        }
+              
+    } else if ( this.status == 401 ){
+        refreshAccessToken();
+    } else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function loop(){
+    if(looped){
+        callApi("PUT", LOOP + "?state=off" + "&device_id=" + currentDeviceId, null, handleLoop);
+    } else {
+        callApi("PUT", LOOP + "?state=context" + "&device_id=" + currentDeviceId, null, handleLoop);
+}
+}
+    
